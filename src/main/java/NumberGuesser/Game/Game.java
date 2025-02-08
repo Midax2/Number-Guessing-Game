@@ -1,7 +1,7 @@
-package NumberGuesser;
+package NumberGuesser.Game;
 
-import NumberGuesser.CustomExeptions.InvalidDifficulty;
-import NumberGuesser.CustomExeptions.InvalidGuess;
+import NumberGuesser.Game.CustomGameExceptions.InvalidDifficulty;
+import NumberGuesser.Game.CustomGameExceptions.InvalidGuess;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -14,7 +14,7 @@ public class Game {
     private final int minRandomBound = 1;
     private final int maxRandomBound = 100;
 
-    Game() {
+    public Game() {
         random = new Random();
         Reset();
         scanner = new Scanner(System.in);
@@ -83,5 +83,9 @@ public class Game {
         int minHintBound = Math.max(numberToGuess - 15, 0);
         int maxHintBound = Math.min(numberToGuess + 15, 100);
         System.out.println("Your number is around " + minHintBound + " to " + maxHintBound + ".");
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 }

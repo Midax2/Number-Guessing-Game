@@ -1,4 +1,4 @@
-package NumberGuesser;
+package NumberGuesser.Game;
 
 public enum Difficulty {
     EASY(10, "Easy"), MEDIUM(5, "Medium"), HARD(3, "Hard");
