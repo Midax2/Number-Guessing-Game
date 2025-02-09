@@ -1,7 +1,8 @@
 package NumberGuesser.GameManager;
 
 import NumberGuesser.Game.Game;
-import NumberGuesser.GameManager.CustomManagerExceptions.InvalidInput;
+import NumberGuesser.GameManager.CustomManagerExceptions.InvalidGuessingException;
+import NumberGuesser.GameManager.CustomManagerExceptions.InvalidMenuInput;
 
 import java.util.Scanner;
 
@@ -31,12 +32,12 @@ public class GameManager {
                         System.out.println("Time taken: " + ((timeEnd - timeStart) / 1000) + "s");
                         break;
                     }
-                    case 2: ;
+                    case 2:
                     case 3: {
                         System.out.println("Thank you for playing!");
                         return;
                     }
-                    default: throw new InvalidInput("Invalid choice");
+                    default: throw new InvalidMenuInput("Invalid choice");
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input: " + e.getMessage());
@@ -53,16 +54,43 @@ public class GameManager {
 
     private void GameProcess() {
         int attempts = 0;
-        while (!game.IsGuess()) {
+        while (true) {
+            System.out.println("1. Guess");
+            System.out.println("2. Hint");
+            System.out.println("3. Number of attempts left");
+
+            try {
+                int choice = scanner.nextInt();
+                if (choice < 1 || choice > 3) {
+                    throw new InvalidGuessingException("Invalid choice");
+                }
+                switch (choice) {
+                    case 2: {
+                        game.Hint();
+                        continue;
+                    }
+                    case 3: {
+                        System.out.println("Number of attempts left: " +
+                                (game.getDifficulty().getNumberOfChances() - attempts));
+                        continue;
+                    }
+                    default: break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input: " + e.getMessage());
+                scanner = new Scanner(System.in);
+            }
+
             attempts++;
-            if (attempts >= game.getDifficulty().getNumberOfChances()) {
+            if (attempts >= game.getDifficulty().getNumberOfChances()
+            || !game.IsGuess()) {
                 break;
             }
         }
         if (attempts > game.getDifficulty().getNumberOfChances()) {
             System.out.println("Unfortunately, you lost!");
         } else {
-            System.out.println("Congratulations! You guessed the correct number in " + (attempts + 1) + " attempts.");
+            System.out.println("Congratulations! You guessed the correct number in " + attempts + " attempts.");
 
         }
     }
