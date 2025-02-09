@@ -13,6 +13,7 @@ public class Game {
     private final Random random;
     private final int minRandomBound = 1;
     private final int maxRandomBound = 100;
+    private boolean isHintUsed = false;
 
     public Game() {
         random = new Random();
@@ -61,7 +62,7 @@ public class Game {
 
     public boolean IsGuess() {
         System.out.print("\nEnter your guess: ");
-        int guess = 0;
+        int guess;
         while (true) {
             try {
                 guess = scanner.nextInt();
@@ -87,9 +88,14 @@ public class Game {
     }
 
     public void Hint() {
+        if (isHintUsed) {
+            System.out.println("You have already used a hint.");
+            return;
+        }
         int minHintBound = Math.max(numberToGuess - 15, 0);
         int maxHintBound = Math.min(numberToGuess + 15, 100);
         System.out.println("Your number is around " + minHintBound + " to " + maxHintBound + ".");
+        isHintUsed = true;
     }
 
     public Difficulty getDifficulty() {
