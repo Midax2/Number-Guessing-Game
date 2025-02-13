@@ -3,16 +3,19 @@ package NumberGuesser.GameManager;
 import NumberGuesser.Game.Game;
 import NumberGuesser.GameManager.CustomManagerExceptions.InvalidGuessingException;
 import NumberGuesser.GameManager.CustomManagerExceptions.InvalidMenuInput;
+import NumberGuesser.ScoreBoard.ScoreBoard;
 
 import java.util.Scanner;
 
 public class GameManager {
     private final Game game;
     private Scanner scanner;
+    private final ScoreBoard scoreBoard;
 
     public GameManager() {
         game = new Game();
         scanner = new Scanner(System.in);
+        scoreBoard = new ScoreBoard();
     }
 
     public void Rum() {
@@ -32,7 +35,10 @@ public class GameManager {
                         System.out.println("Time taken: " + ((timeEnd - timeStart) / 1000) + "s");
                         break;
                     }
-                    case 2:
+                    case 2: {
+                        scoreBoard.PrintScores();
+                        break;
+                    }
                     case 3: {
                         System.out.println("Thank you for playing!");
                         return;
@@ -82,8 +88,8 @@ public class GameManager {
             }
 
             attempts++;
-            if (attempts >= game.getDifficulty().getNumberOfChances()
-            || !game.IsGuess()) {
+            if (attempts > game.getDifficulty().getNumberOfChances()
+            || game.IsGuess()) {
                 break;
             }
         }
@@ -91,7 +97,7 @@ public class GameManager {
             System.out.println("Unfortunately, you lost!");
         } else {
             System.out.println("Congratulations! You guessed the correct number in " + attempts + " attempts.");
-
+            scoreBoard.AddScore(attempts, game.getDifficulty());
         }
     }
 }
