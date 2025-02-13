@@ -41,7 +41,6 @@ Congratulations! You guessed the correct number in 4 attempts.
 ```
 
 ## 🚀 Additional Features (Enhancements)
-Want to make the game even more fun? Consider adding these features:
 - **Multiple Rounds**: Allow users to play again after each round.
 - **Timer**: Track how long it takes for the user to guess the number.
 - **Hint System**: Provide hints when the user is stuck.
